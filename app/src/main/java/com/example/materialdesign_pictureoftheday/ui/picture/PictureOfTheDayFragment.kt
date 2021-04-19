@@ -1,5 +1,7 @@
 package com.example.materialdesign_pictureoftheday.ui.picture
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -39,6 +41,13 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.inputLayout.setEndIconOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(
+                    "https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}"
+                )
+            })
+        }
         setBottomSheetBehaviour(view.findViewById(R.id.bottom_sheet_container))
         bottomSheetHeader = view.findViewById(R.id.bottom_sheet_description_header)
         bottomSheetContent = view.findViewById(R.id.bottom_sheet_description)
