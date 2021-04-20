@@ -3,18 +3,18 @@ package com.example.materialdesign_pictureoftheday.ui.picture
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import com.example.materialdesign_pictureoftheday.R
 import com.example.materialdesign_pictureoftheday.databinding.MainFragmentBinding
+import com.example.materialdesign_pictureoftheday.ui.MainActivity
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class PictureOfTheDayFragment : Fragment() {
@@ -51,6 +51,7 @@ class PictureOfTheDayFragment : Fragment() {
         setBottomSheetBehaviour(view.findViewById(R.id.bottom_sheet_container))
         bottomSheetHeader = view.findViewById(R.id.bottom_sheet_description_header)
         bottomSheetContent = view.findViewById(R.id.bottom_sheet_description)
+        setBottomAppBar(view)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -119,6 +120,72 @@ class PictureOfTheDayFragment : Fragment() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_bottom_bar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.app_bar_fav -> toast(getString(R.string.favourite))
+            R.id.app_bar_settings -> toast(getString(R.string.settings))
+            android.R.id.home -> {
+                activity?.let {
+                    BottomNavigationDrawerFragment().show(it.supportFragmentManager, "tag")
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBottomAppBar(view: View) {
+        val context = activity as MainActivity
+        context.setSupportActionBar(view.findViewById(R.id.bottom_app_bar))
+        setHasOptionsMenu(true)
+        binding.fab.setOnClickListener {
+            if (isMain) {
+                isMain = false
+                with(binding) {
+                    bottomAppBar.navigationIcon = null
+                    bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                    fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_back_fab))
+                    bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other_screen)
+                }
+            } else {
+                isMain = true
+                with(binding) {
+                    bottomAppBar.navigationIcon = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_hamburger_menu_bottom_bar
+                    )
+                    bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                    fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_plus_fab))
+                    bottomAppBar.replaceMenu(R.menu.menu_bottom_bar)
+                }
+            }
+        }
+//        if (isMain) {
+//            isMain = false
+//            with(binding) {
+//                bottomAppBar.navigationIcon = null
+//                bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+//                fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_back_fab))
+//                bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other_screen)
+//            }
+//        } else {
+//            isMain = true
+//            with(binding) {
+//                bottomAppBar.navigationIcon = ContextCompat.getDrawable(
+//                    context,
+//                    R.drawable.ic_hamburger_menu_bottom_bar
+//                )
+//                bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+//                fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_plus_fab))
+//                bottomAppBar.replaceMenu(R.menu.menu_bottom_bar)
+//            }
+//        }
     }
 
     private fun Fragment.toast(string: String?) {
