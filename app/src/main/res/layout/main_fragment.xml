@@ -49,11 +49,11 @@
             <com.example.materialdesign_pictureoftheday.ui.view.EqiulateralImageView
                 android:id="@+id/image_view"
                 style="@style/equilateral_image_view_style"
-                android:layout_width="@dimen/image_view_layout_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/image_view_layout_height"
                 android:contentDescription="@string/photo_of_the_day_stub"
-                app:layout_constraintBottom_toBottomOf="@id/main"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/main"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/input_layout"
                 app:srcCompat="@drawable/ic_no_photo_vector" />
@@ -66,7 +66,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="@id/image_view"
-                tools:visibility="visible">
+                tools:visibility="gone">
 
                 <ProgressBar
                     style="?android:attr/progressBarStyleLarge"
@@ -82,7 +82,7 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         style="@style/bottom_app_bar_style"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="?attr/colorPrimary"
         app:fabAlignmentMode="center"
         app:fabCradleMargin="@dimen/fab_cradle_margin"
         app:fabCradleRoundedCornerRadius="@dimen/fab_cradle_rounded_corner_radius"
