@@ -56,7 +56,15 @@
                 app:layout_constraintEnd_toEndOf="@id/main"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/input_layout"
-                app:srcCompat="@drawable/ic_no_photo_vector" />
+                app:srcCompat="@drawable/ic_no_photo_vector">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabRippleColor="@color/yellow"
+                    app:layout_constraintTop_toBottomOf="@id/input_layout" />
+            </androidx.viewpager.widget.ViewPager>
 
             <FrameLayout
                 android:id="@+id/loadingLayout"

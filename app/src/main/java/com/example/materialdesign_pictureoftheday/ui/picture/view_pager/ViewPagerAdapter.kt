@@ -29,4 +29,14 @@ class ViewPagerAdapter
             else -> fragments[TODAY]
         }
     }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        return when (position) {
+            0 -> "Сегодня"
+            1 -> "Вчера"
+            2 -> "Позавчера"
+            else -> "Сегодня"
+            //Не смог разобраться, как здесь вместо хардкода использовать R.strings
+        }
+    }
 }

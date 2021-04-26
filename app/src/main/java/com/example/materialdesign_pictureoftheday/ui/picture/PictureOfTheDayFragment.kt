@@ -50,6 +50,7 @@ class PictureOfTheDayFragment : Fragment() {
             })
         }
         binding.viewPager.adapter = ViewPagerAdapter(childFragmentManager)
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
         setBottomSheetBehaviour(view.findViewById(R.id.bottom_sheet_container))
         bottomSheetHeader = view.findViewById(R.id.bottom_sheet_description_header)
         bottomSheetContent = view.findViewById(R.id.bottom_sheet_description)
@@ -75,11 +76,6 @@ class PictureOfTheDayFragment : Fragment() {
                 if (url.isNullOrEmpty()) {
                     toast("Url is empty")
                 } else {
-//                    binding.imageView.load(url) {
-//                        lifecycle(this@PictureOfTheDayFragment)
-//                        error(R.drawable.ic_load_error_vector)
-//                        placeholder(R.drawable.ic_no_photo_vector)
-//                    }
                     bottomSheetHeader.text = serverResponseData.title
                     bottomSheetContent.text = serverResponseData.explanation
                 }
