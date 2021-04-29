@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.example.materialdesign_pictureoftheday.R
 import com.example.materialdesign_pictureoftheday.databinding.SettingsFragmentBinding
 
-
 const val SETTINGS_SHARED_PREFERENCES = "SettingsSharedPreferences"
 const val THEME_RES_ID = "ThemeResID"
 private const val THEME_NAME_SHARED_PREFERENCES = "ThemeNameSharedPreferences"
