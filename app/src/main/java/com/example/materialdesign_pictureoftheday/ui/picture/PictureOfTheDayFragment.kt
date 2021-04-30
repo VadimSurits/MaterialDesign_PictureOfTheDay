@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.materialdesign_pictureoftheday.R
-import com.example.materialdesign_pictureoftheday.databinding.MainFragmentBinding
+import com.example.materialdesign_pictureoftheday.databinding.MainFragmentStartBinding
 import com.example.materialdesign_pictureoftheday.ui.MainActivity
 import com.example.materialdesign_pictureoftheday.ui.collapsing_toolbar.CollapsingToolbarActivity
 import com.example.materialdesign_pictureoftheday.ui.picture.view_pager.ViewPagerAdapter
@@ -24,7 +24,7 @@ const val BOTTOM_SHEET_CONTENT = "BottomSheetContent"
 
 class PictureOfTheDayFragment : Fragment() {
 
-    private var _binding: MainFragmentBinding? = null
+    private var _binding: MainFragmentStartBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: PictureOfTheDayViewModel by lazy {
@@ -40,7 +40,7 @@ class PictureOfTheDayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        _binding = MainFragmentStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
