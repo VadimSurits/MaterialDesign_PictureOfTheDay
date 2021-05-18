@@ -1,27 +1,38 @@
 package com.example.materialdesign_pictureoftheday.ui
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import com.example.materialdesign_pictureoftheday.R
+import com.example.materialdesign_pictureoftheday.databinding.SplashActivityBinding
 
 class SplashActivity : AppCompatActivity() {
 
-    var handler = Handler()
+    private lateinit var binding: SplashActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splash_activity)
+        binding = SplashActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        handler.postDelayed({
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java ))
-            finish()
-        }, 3000)
-    }
+        binding.imageView.animate().rotationBy(3000f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).setDuration(5000)
+            .setListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                }
 
-    override fun onDestroy() {
-        handler.removeCallbacksAndMessages(null)
-        super.onDestroy()
+                override fun onAnimationEnd(animation: Animator?) {
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    finish()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+            })
     }
 }
