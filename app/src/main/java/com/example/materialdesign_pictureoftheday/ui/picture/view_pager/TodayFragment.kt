@@ -2,31 +2,46 @@ package com.example.materialdesign_pictureoftheday.ui.picture.view_pager
 
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import coil.api.load
 import com.example.materialdesign_pictureoftheday.R
-import com.example.materialdesign_pictureoftheday.databinding.TodayFragmentBinding
+import com.example.materialdesign_pictureoftheday.databinding.TodayFragmentStartBinding
 import com.example.materialdesign_pictureoftheday.ui.picture.PictureOfTheDayData
 import com.example.materialdesign_pictureoftheday.ui.picture.PictureOfTheDayViewModel
 
 class TodayFragment : Fragment() {
 
-    private var _binding: TodayFragmentBinding? = null
+    private var _binding: TodayFragmentStartBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
     }
+    private var shown = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = TodayFragmentBinding.inflate(inflater, container, false)
+        _binding = TodayFragmentStartBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.todayImageView.setOnClickListener {
+            if (shown) {
+                hideInfo()
+            } else {
+                showInfo()
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -34,6 +49,28 @@ class TodayFragment : Fragment() {
         viewModel.getData(null).observe(viewLifecycleOwner, {
             renderData(it)
         })
+    }
+
+    private fun showInfo() {
+        shown = true
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(context, R.layout.today_fragment_end)
+        val transition = ChangeBounds()
+        transition.interpolator = AnticipateOvershootInterpolator(5.0f)
+        transition.duration = 1000
+        TransitionManager.beginDelayedTransition(binding.todayFragmentStartContainer, transition)
+        constraintSet.applyTo(binding.todayFragmentStartContainer)
+    }
+
+    private fun hideInfo() {
+        shown = false
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(context, R.layout.today_fragment_start)
+        val transition = ChangeBounds()
+        transition.interpolator = AnticipateOvershootInterpolator(5.0f)
+        transition.duration = 1000
+        TransitionManager.beginDelayedTransition(binding.todayFragmentStartContainer, transition)
+        constraintSet.applyTo(binding.todayFragmentStartContainer)
     }
 
     private fun renderData(data: PictureOfTheDayData) {
@@ -44,10 +81,13 @@ class TodayFragment : Fragment() {
                 if (url.isNullOrEmpty()) {
                     toast("Url is empty")
                 } else {
-                    binding.todayImageView.load(url) {
-                        lifecycle(this@TodayFragment)
-                        error(R.drawable.ic_load_error_vector)
-                        placeholder(R.drawable.ic_no_photo_vector)
+                    with(binding) {
+                        todayImageView.load(url) {
+                            lifecycle(this@TodayFragment)
+                            error(R.drawable.ic_load_error_vector)
+                            placeholder(R.drawable.ic_no_photo_vector)
+                        }
+                        todayTitle.text = serverResponseData.title
                     }
                 }
             }
